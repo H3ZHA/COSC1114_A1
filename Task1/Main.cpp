@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
         std::cerr << "Create fork fail!" << std::endl;
         exit(0);
     }
-    // child
-    if(main_fork == 0){
+    // parent
+    if(main_fork != 0){
         std::string input_file_name;
         std::string output_file_name;
 
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
             kill(main_fork, SIGKILL);
         }
     }
-    // parent
+    // child
     else{
         // sleep 30s
         sleep(30);
