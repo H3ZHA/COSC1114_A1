@@ -183,7 +183,7 @@ std::deque<std::string> TaskFilter(std::string input_file){
                     
                 }
                 // insert word when meet first greater character
-                else if(int(word[2]) < compare_word[2]){
+                else if(int(word[2]) < int(compare_word[2])){
                     filtered_sorted.insert(filtered_i, word);
                     break;
                 }
