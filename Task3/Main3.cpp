@@ -11,6 +11,7 @@
 #include <sys/fcntl.h>
 
 bool *Graceful_Exit;
+int *sort_done;
 int *words_in_3, *words_in_4, *words_in_5, *words_in_6, *words_in_7, *words_in_8, *words_in_9, *words_in_10, *words_in_11
     , *words_in_12, *words_in_13, *words_in_14, *words_in_15;
 std::string FIFOs[13] = {"FIFO_3", "FIFO_4", "FIFO_5", "FIFO_6", "FIFO_7", "FIFO_8", "FIFO_9", "FIFO_10", "FIFO_11"
@@ -39,15 +40,17 @@ int main(int argc, char **argv) {
     words_in_13 = (int *)mmap(NULL, 4, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
     words_in_14 = (int *)mmap(NULL, 4, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
     words_in_15 = (int *)mmap(NULL, 4, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
+    sort_done = (int *)mmap(NULL, 4, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
 
     if(Graceful_Exit == MAP_FAILED || words_in_3 == MAP_FAILED || words_in_4 == MAP_FAILED || words_in_5 == MAP_FAILED
          || words_in_6 == MAP_FAILED || words_in_7 == MAP_FAILED || words_in_8 == MAP_FAILED || words_in_9 == MAP_FAILED
          || words_in_10 == MAP_FAILED || words_in_11 == MAP_FAILED || words_in_12 == MAP_FAILED || words_in_13 == MAP_FAILED
-         || words_in_14 == MAP_FAILED || words_in_15 == MAP_FAILED){
+         || words_in_14 == MAP_FAILED || words_in_15 == MAP_FAILED || sort_done == MAP_FAILED){
         std::cerr << "mmap fail!" << std::endl;
         exit(0);
     }
     *Graceful_Exit = false;
+    *sort_done = 0;
 
     // create fork
     pid_t main_fork = fork();
@@ -101,6 +104,8 @@ int main(int argc, char **argv) {
         // reduce() is parent
         else{
             // do meaningless loop until all forks done sort
+            while(*sort_done < 13){
+            }
             output = reduce3();
         }
 
@@ -382,6 +387,8 @@ void map3(std::deque<std::string> deque){
                 *words_in_15 = word_list[i]->size();
             }
 
+            *sort_done = *sort_done + 1;
+
             // check FIFO file exist,, if not create FIFO file
             char fifo_name[6];
             std::strcpy(fifo_name, FIFOs[i-1].c_str());
@@ -432,7 +439,6 @@ std::deque<std::string> reduce3(){
     int fifo3 = 0, fifo4 = 0, fifo5 = 0, fifo6 = 0, fifo7 = 0, fifo8 = 0, fifo9 = 0, fifo10 = 0, fifo11 = 0, fifo12 = 0
         , fifo13 = 0, fifo14 = 0, fifo15 = 0;
     int fifos[] = {fifo3, fifo4, fifo5, fifo6, fifo7, fifo8, fifo9, fifo10, fifo11, fifo12, fifo13, fifo14, fifo15};
-    sleep(2);
 
     // open FIFO files and read first word
     for(int i = 0; i < 13 && *word_in_list_count[i] > 0; i++){
