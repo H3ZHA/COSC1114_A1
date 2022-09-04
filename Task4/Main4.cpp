@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
         }
         // map() is child
         if(map_reduce == 0){
-            map3(filtered_data);
+            map4(filtered_data);
             exit(0);
         }
         // reduce() is parent
@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
             // do meaningless loop until all forks done sort
             while(*sort_done < 13){
             }
-            output = reduce3();
+            output = reduce4();
         }
 
         wait(NULL);
