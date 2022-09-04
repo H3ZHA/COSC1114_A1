@@ -365,7 +365,7 @@ void map3(std::deque<std::string> deque){
             char command_4[10];
 
             // -20 is highest priority
-            int command_priority = priority[i-1] - 20;
+            int command_priority = -8 - priority[i-1];
             snprintf(command_2, sizeof(command_2), "%d", command_priority);
 
             int command_pid = getpid();
