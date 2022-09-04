@@ -21,8 +21,8 @@ std::deque<std::string> TaskFilter(std::string input_file);
 void write_file(std::deque<std::string> deque, std::string output_file);
 std::deque<std::string> my_sort(std::deque<std::string> filtered);
 int compare_2_words(std::string word1, std::string word2);
-void map3(std::deque<std::string> deque);
-std::deque<std::string> reduce3();
+void map4(std::deque<std::string> deque);
+std::deque<std::string> reduce4();
 
 int main(int argc, char **argv) {
     
@@ -307,7 +307,7 @@ int compare_2_words(std::string word1, std::string word2){
     }
 }
 
-void map3(std::deque<std::string> deque){
+void map4(std::deque<std::string> deque){
     if(*Graceful_Exit == false){
         std::cout << "Data filtered done! Separating the words list..." << std::endl;
     }
@@ -461,7 +461,7 @@ void map3(std::deque<std::string> deque){
     }
 }
 
-std::deque<std::string> reduce3(){
+std::deque<std::string> reduce4(){
     std::string word_in_3, word_in_4, word_in_5, word_in_6, word_in_7, word_in_8, word_in_9, word_in_10, word_in_11
                         , word_in_12, word_in_13, word_in_14, word_in_15;
     std::string word_in_temp[13] = {word_in_3, word_in_4, word_in_5, word_in_6, word_in_7, word_in_8, word_in_9, word_in_10
