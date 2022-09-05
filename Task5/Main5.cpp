@@ -26,6 +26,7 @@ void map4(std::deque<std::string> deque);
 std::deque<std::string> reduce5();
 void stream_server(std::deque<std::string> original_data);
 std::deque<std::string> map5();
+int new_compare_2_words(std::string word1, std::string word2);
 
 int main(int argc, char **argv) {
     
@@ -672,3 +673,56 @@ std::deque<std::string> map5(){
     return output;
 }
 
+int new_compare_2_words(std::string word1, std::string word2){
+    // return 1 means word1 is smaller, 0 means word1 is greater, 3 means same words
+    // compare character by ASCII
+    // if have same character, compare next character
+    if(int(word1[2]) == int(word2[2])){
+        // loop compare until last character of shorter word
+        for(std::size_t character_i = 3; character_i < word1.length() && character_i < word2.length(); character_i++){
+            // return 1 when meet first greater character
+            if(int(word1[character_i]) < int(word2[character_i])){
+                return 1;
+            }
+            // return 0 when meet first smaller character
+            else if(int(word1[character_i]) > int(word2[character_i])){
+                return 0;
+            }
+            // if this character still same, compare next character
+        }
+
+        // if still not return, mean 2 words have same front section, then need to compare word length
+        // if words have same length, compare full word 
+        if(word1.length() == word2.length()){
+            for(int i = 0; i < 3; i++){
+                // return 1 when meet first greater character
+                if(word1[i] < word2[i]){
+                    return 1;
+                }
+                // return 0 when meet first smaller character
+                else if(word1[i] > word2[i]){
+                    return 0;
+                }
+                // if this character still same, compare next character
+            }
+            // if still not return, mean they are same word, return 3 to ignore duplicates
+
+            return 3;
+        }
+        // if word1 is shorter, return 1
+        else if(word1.length() < word2.length()){
+            return 1;
+        }
+        // if word1 is longer, return 0 and go to next word
+        else{
+            return 0;
+        }
+    }
+    // if meet greater character
+    else if(int(word1[2]) < int(word2[2])){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
